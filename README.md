@@ -2,7 +2,7 @@
 
 An ESP32-based access control and motor control project that uses a 4x4 keypad, OLED display, and buzzer to authenticate a user before allowing equipment to operate.
 
-The project is being developed in stages, beginning with the security and authentication system and later expanding to motor/fan control, timer operation, emergency-stop protection, and PCB implementation.
+The project is being developed in stages, beginning with the security and authentication system and later expanding to motor/fan control, timer operation, emergency-stop protection, persistent password storage, and PCB implementation.
 
 ---
 
@@ -21,12 +21,13 @@ The system provides visual feedback through an OLED display and audio feedback t
 - SSD1306 OLED display
 - Buzzer feedback
 - User-defined access code
-- Hidden password entry using `*`
+- Hidden password entry
 - Access Granted notification
 - Access Denied notification
 - Ability to change the access code
 - Current-code verification before changing password
 - Serial Monitor debugging
+- Physical breadboard prototype
 
 ---
 
@@ -40,7 +41,7 @@ The system provides visual feedback through an OLED display and audio feedback t
 | Buzzer | 1 | Audio feedback |
 | Breadboard | 1 | Prototype construction |
 | Jumper Wires | Several | Electrical connections |
-| Resistor(s) | As required | Circuit protection |
+| Resistor(s) | As required | Circuit protection/biasing |
 
 ---
 
@@ -101,20 +102,17 @@ The ESP32 scans the rows and columns to determine which key the user pressed.
 
 1. The ESP32 powers on.
 2. The OLED displays the security-system startup message.
-3. The OLED displays:
-
-   `ENTER CODE`
-
+3. The OLED displays `ENTER CODE`.
 4. The user enters an access code using the keypad.
-5. Each entered digit is hidden using a `*`.
+5. Each entered digit is hidden using `*`.
 6. The user presses `#` to submit the code.
-7. The ESP32 compares the entered code with the stored code.
+7. The ESP32 compares the entered code with the stored access code.
 8. If the code is correct:
    - OLED displays `ACCESS GRANTED`
-   - Buzzer produces a confirmation sound
+   - Buzzer produces confirmation feedback
 9. If the code is incorrect:
    - OLED displays `ACCESS DENIED`
-   - Buzzer produces an error sound
+   - Buzzer produces an error indication
 10. The user can press `A` to begin the password-change process.
 
 ---
@@ -125,7 +123,7 @@ The ESP32 scans the rows and columns to determine which key the user pressed.
 |---|---|
 | `0-9` | Enter digits |
 | `#` | Enter / Submit |
-| `*` | Clear or Cancel |
+| `*` | Clear / Cancel |
 | `A` | Change access code |
 
 The `B`, `C`, and `D` keys are currently reserved for future functionality.
@@ -183,6 +181,34 @@ This means that if the ESP32 is restarted or loses power, the password returns t
 `1234`
 
 A future version will use ESP32 Preferences/NVS memory so the password remains saved after power is removed.
+
+---
+
+## Hardware Prototype Demonstration
+
+The following images show the ESP32 access-control system operating on the physical breadboard prototype.
+
+### 1. Waiting for User Code
+<img width="906" height="595" alt="image" src="https://github.com/user-attachments/assets/02f8ee8b-1308-4c5b-9015-344ee2991081" />
+
+
+
+
+The system prompts the user to enter an access code using the 4x4 keypad.
+
+
+### 2. Access Granted
+
+When the correct code is entered, the OLED displays **ACCESS GRANTED** and the buzzer provides confirmation feedback.
+<img width="898" height="669" alt="image" src="https://github.com/user-attachments/assets/8e02015d-b6f7-4c53-b742-d176890e4c65" />
+
+
+
+### 3. Access Denied
+
+When an incorrect code is entered, the OLED displays **ACCESS DENIED** and the buzzer provides an error indication.
+
+<img width="904" height="677" alt="image" src="https://github.com/user-attachments/assets/ef8c8952-dcac-4aa8-a2fa-48b005a9c57d" />
 
 ---
 
