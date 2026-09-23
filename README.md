@@ -242,3 +242,60 @@ The project uses the following libraries:
 #include <Keypad.h>
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
+
+## Progress Update – September 22, 2026
+
+### Board 2 – Machine Control & Safety Module
+
+Today I completed and tested the second ESP32 control board.
+
+### Features Implemented
+
+- 28BYJ-48 5V stepper motor control
+- 5V cooling fan controlled with an N-channel MOSFET
+- Emergency-stop push button
+- Latched emergency-stop logic
+- SSD1306 OLED status display
+- Green system-status LED
+- Red emergency-status LED
+
+### Pin Assignment
+
+| Component | ESP32 GPIO |
+|---|---|
+| Stepper IN1 | GPIO 16 |
+| Stepper IN2 | GPIO 17 |
+| Stepper IN3 | GPIO 18 |
+| Stepper IN4 | GPIO 19 |
+| OLED SDA | GPIO 21 |
+| OLED SCL | GPIO 22 |
+| Fan MOSFET Gate | GPIO 25 |
+| Emergency Stop | GPIO 27 |
+| Green LED | GPIO 32 |
+| Red LED | GPIO 33 |
+
+### Normal Operation
+
+- Stepper motor runs
+- Fan runs
+- Green LED ON
+- Red LED OFF
+- OLED displays system status
+
+### Emergency Stop
+
+When the emergency-stop button is pressed:
+
+- Stepper motor stops
+- Fan turns OFF
+- Green LED turns OFF
+- Red LED turns ON
+- OLED displays `EMERGENCY STOP`
+- The system remains locked until the ESP32 is reset
+
+### Next Steps
+
+- Connect Board 1 and Board 2 using ESP-NOW
+- Add keypad authentication
+- Add normal START and STOP commands
+- Send system status back to Board 1
