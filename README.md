@@ -242,17 +242,18 @@ The project uses the following libraries:
 #include <Keypad.h>
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
-
+```
 ## Progress Update – September 22, 2026
 
 ### Board 2 – Machine Control & Safety Module
 
-Today I completed and tested the second ESP32 control board.
+Today I completed and tested the second ESP32 board for my Secure Machine Control System.
 
 ### Features Implemented
 
 - 28BYJ-48 5V stepper motor control
-- 5V cooling fan controlled with an N-channel MOSFET
+- Stepper motor driver interface
+- 5V cooling fan controlled using an N-channel MOSFET
 - Emergency-stop push button
 - Latched emergency-stop logic
 - SSD1306 OLED status display
@@ -274,30 +275,61 @@ Today I completed and tested the second ESP32 control board.
 | Green LED | GPIO 32 |
 | Red LED | GPIO 33 |
 
-### Normal Operation
-<img width="1030" height="778" alt="image" src="https://github.com/user-attachments/assets/cd4a87ad-3428-4145-8097-6b5d963776fb" />
+## Normal Operating Condition
 
-- Stepper motor runs
-- Fan runs
-- Green LED ON
-- Red LED OFF
-- OLED displays system status
+During normal operation:
 
-### Emergency Stop
+- Stepper motor is running
+- Cooling fan is ON
+- Green LED is ON
+- Red LED is OFF
+- Emergency stop is inactive
+- OLED displays the system status
+
+### Normal Condition Photo
+
+<img width="1600" height="1200" alt="image" src="https://github.com/user-attachments/assets/3f7ba72c-844e-4792-9a79-6a7e0b315c4c" />
+
+
+OLED display:
+
+SYSTEM RUNNING  
+MOTOR: ON  
+FAN: ON  
+E-STOP: OK  
+
+## Emergency Stop Condition
 
 When the emergency-stop button is pressed:
-<img width="897" height="678" alt="image" src="https://github.com/user-attachments/assets/c9f9fd9f-d8b7-4b31-a0b8-15ccc509c816" />
 
 - Stepper motor stops
-- Fan turns OFF
+- Cooling fan turns OFF
 - Green LED turns OFF
 - Red LED turns ON
-- OLED displays `EMERGENCY STOP`
-- The system remains locked until the ESP32 is reset
+- OLED displays an emergency warning
+- The emergency condition remains latched after the button is released
 
-### Next Steps
+### Emergency Stop Photo
+<img width="1600" height="1200" alt="image" src="https://github.com/user-attachments/assets/ec63fd6c-6e3f-44d3-8fb9-e676dda87781" />
+
+
+OLED display:
+
+EMERGENCY STOP  
+MOTOR: OFF  
+FAN: OFF  
+SYSTEM LOCKED  
+
+## Fan Control
+
+The cooling fan is controlled using an N-channel MOSFET. GPIO 25 controls the MOSFET gate.
+
+A series gate resistor is used between the ESP32 and the MOSFET, while a 10kΩ pull-down resistor keeps the MOSFET OFF when the GPIO is floating.
+
+## Next Steps
 
 - Connect Board 1 and Board 2 using ESP-NOW
 - Add keypad authentication
 - Add normal START and STOP commands
-- Send system status back to Board 1
+- Send machine status from Board 2 back to Board 1
+- Improve the emergency-stop system with hardware-level shutdown
