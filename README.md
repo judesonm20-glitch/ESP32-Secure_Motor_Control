@@ -275,6 +275,7 @@ Today I completed and tested the second ESP32 control board.
 | Red LED | GPIO 33 |
 
 ### Normal Operation
+<img width="1030" height="778" alt="image" src="https://github.com/user-attachments/assets/cd4a87ad-3428-4145-8097-6b5d963776fb" />
 
 - Stepper motor runs
 - Fan runs
@@ -285,6 +286,7 @@ Today I completed and tested the second ESP32 control board.
 ### Emergency Stop
 
 When the emergency-stop button is pressed:
+<img width="897" height="678" alt="image" src="https://github.com/user-attachments/assets/c9f9fd9f-d8b7-4b31-a0b8-15ccc509c816" />
 
 - Stepper motor stops
 - Fan turns OFF
